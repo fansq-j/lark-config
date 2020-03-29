@@ -1,0 +1,151 @@
+spring:
+  application:
+    name: lark-gate
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  redis:
+    database: 1
+    #需要修改地址
+    #        host: 10.11.24.5
+    #host: 10.11.24.135  47.99.247.83
+    host: 10.11.24.160
+    jedis:
+      pool:
+        max-active: 200
+    password: 123456
+  #    rabbitmq:
+  #        host: ${RABBIT_MQ_HOST:localhost}
+  #        port:  ${RABBIT_MQ_PORT:5672}
+  #        username: guest
+  #        password: guest
+  sleuth:
+    sampler:
+      percentage: 1
+    zuul:
+      enabled: true
+
+eureka:
+  instance:
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    home-page-url-path: /
+    # docker 部署开启
+  #        prefer-ip-address: true
+  #        ip-address: 127.0.0.1
+  client:
+    serviceUrl:
+      #            defaultZone: http://localhost:8761/eureka/
+      # docker 部署开启
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      ###向注册中心上注册自己
+      register-with-eureka: true
+      ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+
+server:
+  port: 8765 #启动端口
+
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+  hystrix:
+    enabled: true
+
+zuul:
+  ignored-services: "*"
+  sensitive-headers: #默认过滤所有的请求头，为空则放行所有的请求头
+  prefix: /api #为zuul设置一个公共的前缀
+  ratelimit: # 网关限流
+    key-prefix: gate_rate
+    enabled: true
+    repository: REDIS #REDIS, JPA, IN_MEMORY
+    behind-proxy: true
+    default-policy: #optional - will apply unless specific policy exists
+      limit: 2000
+      refresh-interval: 60 #default value (in seconds)
+      type: #optional
+        - user
+        - origin
+        - url
+  routes:
+    back:
+      path: /admin/**
+      serviceId: lark-admin
+
+    auth:
+      path: /auth/**
+      serviceId: lark-auth
+
+    portal:
+      path: /portal/**
+      serviceId: service-portal
+
+    fdfs:
+      path: /fdfs/**
+      serviceId: service-dfsfile
+
+    chat:
+      path: /chat/**
+      serviceId: service-chat
+
+#    unit:
+#      path: /unit/**
+#      serviceId: service-unitproject
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 1800000
+  ConnectTimeout: 1800000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 10000 ##并发执行的最大线程数，默认10
+      maxQueueSize: 10000 ##BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 5000 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 200000
+          strategy: SEMAPHORE
+
+
+gate:
+  ignore:
+    startWith: /static,/auth/jwt,/fdfs/fdfs/file,/admin/org/tree,/admin/org/orgUsers,/admin/org/user,/admin/position/userSecret,/admin/api
+
+
+auth:
+  serviceId: lark-auth
+  user:
+    token-header: Authorization
+  client:
+    token-header: client-token
+    id: lark-gate  #不填则默认读取spring.application.name
+    secret: 123456

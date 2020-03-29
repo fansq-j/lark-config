@@ -1,0 +1,48 @@
+server:
+  port: 8090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+        ###向注册中心上注册自己
+      register-with-eureka: true
+        ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+logging:
+  level: debug
+
+spring:
+  application:
+    name: service-webservice
+  datasource:
+    driverclassname: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@//10.11.24.136:1521/arltr
+    username: lark_admin
+    password: 123456
+  jpa:
+    database: oracle
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:10.11.24.160}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: hollykunge
+    password: 123456
+    virtual-host: /
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        retry:
+          initial-interval: 3000ms
+          enabled: true
+          max-attempts: 8
+
+#配置
+spring:
+  address: http://10.11.1.29/axis/services/BizService
+  cronb: 0 0 * * * ?
+  userxmladdress: C:\\userxml
+  userreadxmladdress: C:\\userxml\\userreadxml

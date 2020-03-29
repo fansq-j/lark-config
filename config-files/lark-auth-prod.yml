@@ -1,0 +1,138 @@
+spring:
+  application:
+    name: lark-auth
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  redis:
+    database: 1
+    #需要修改地址
+    host: ${REDIS_HOST:10.11.24.160}
+    port: ${REDIS_PORT:6379}
+    pool:
+      max-active: 200
+    password: 123456
+  datasource:
+    name: test
+    url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.136}:${ORACLE_PORT:1521}:arltr
+    username: lark_auth
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    #      driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: oracle.jdbc.OracleDriver
+      #      filters: stat
+      #      maxActive: 200
+      #      initialSize: 1
+      #      maxWait: 60000
+      #      minIdle: 1
+      #      timeBetweenEvictionRunsMillis: 60000
+      #      minEvictableIdleTimeMillis: 300000
+      #      validationQuery: select 'x' from dual
+      #      testWhileIdle: true
+      #      testOnBorrow: false
+    #      testOnReturn: false
+    #      poolPreparedStatements: true
+    #      maxOpenPreparedStatements: 20
+    ###优化数据库连接池配置,该配置支持2000并发
+    druid:
+      max-active: 18
+      initial-size: 3
+      min-idle: 3
+      max-wait: 250000
+      time-between-eviction-runs-millis: 250000
+      min-evictable-idle-time-millis: 120000
+      validation-query: select 'x' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-open-prepared-statements: 20
+      filter: stat,wall,log4j
+  #    rabbitmq:
+  #      host: ${RABBIT_MQ_HOST:localhost}
+  #      port:  ${RABBIT_MQ_PORT:5672}
+  #      username: guest
+  #      password: guest
+  sleuth:
+    sampler:
+      percentage: 1
+
+#eruka注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      ###向注册中心上注册自己
+      register-with-eureka: true
+      ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+#      register-with-eureka: false
+#      #是否需要从eureka上获取注册信息
+#      fetch-registry: false
+
+mybatis:
+  basepackage: com.github.hollykunge.security.auth.mapper
+  xmlLocation: classpath:mapper/**/*.xml
+  mapper-locations: "classpath*:mapper/*.xml"
+
+server:
+  port: 9777 #启动端口
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 10000 ##并发执行的最大线程数，默认10
+      maxQueueSize: 10000 ##BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 5000 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+jwt:
+  token-header: Authorization
+  ###jwt的存在时间设置为无限期
+  expire: 0
+  rsa-secret: xx1WET12^%3^(WE45
+
+client:
+  id: lark-auth
+  secret: 123456
+  token-header: client-token
+  expire: 14400
+  rsa-secret: x2318^^(*WRYQWR(QW&T
+####新增用户时的默认密码
+auth:
+  user:
+    defaultPassword: 123456
+##druid数据库连接池管理页面配置
+druid:
+  enabled: true
+  ###允许登录的白名单
+  whiteip: 127.0.0.1
+  ###不允许登录的黑名单
+  blackip: 192.168.1.1
+  loginUsername: admin
+  loginPassword: 123456
+sys:
+  username: larksys
+  password: larksys
+  orgcode: '0010000103'

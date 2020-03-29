@@ -1,0 +1,138 @@
+spring:
+  application:
+    name: service-dfsfile
+  datasource:
+    url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.136}:${ORACLE_PORT:1521}:arltr
+    username: lark_file
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    ###优化数据库连接池配置,该配置支持2000并发
+    druid:
+      max-active: 18
+      initial-size: 3
+      min-idle: 3
+      max-wait: 250000
+      time-between-eviction-runs-millis: 250000
+      min-evictable-idle-time-millis: 120000
+      validation-query: select 'x' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-open-prepared-statements: 20
+      filter: stat,wall,log4j
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 600MB
+      max-request-size: 600MB
+  #html具有缓存的特点,这里不用,每次刷新都请求服务器
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+server:
+  port: 8771
+  profiles:
+    active: dev
+#eruka注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      ###向注册中心上注册自己
+      register-with-eureka: true
+      ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+
+
+###fastdfs配置
+fdfs:
+  ###上传文件使用分组，后期对fastdfs扩容，改变这个参数即可，改为你想使用的卷进行上传
+  groupName: group1
+  soTimeout: 1500 #socket连接超时时长
+  connectTimeout: 6000 #连接tracker服务器超时时长
+  ###nginx反向监听storage服务配置，ip（nginx配置放在前台，后台只提供相对路径，防止后期迁移服务器后，所有的头像数据全部不显示了）
+  ##nginxHost: 10.12.97.34
+  ###nginx端口
+  ##nginxPort: 80
+  thumbImage: #缩略图生成参数，可选
+    width: 150
+    height: 150
+  trackerList: #TrackerList参数,支持多个，我这里只有一个，如果有多个在下方加- x.x.x.x:port
+    - 10.11.24.160:22122
+upload:
+  picture:
+    mast: jpg,png
+  sensitiveFile:
+    original: .lark
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  level:
+    com.github.hollykunge.dao: debug
+
+##durid数据监控页面配置
+druid:
+  enabled: true
+  whiteip: 127.0.0.1
+  blackip: 192.168.1.1
+  loginUsername: admin
+  loginPassword: 123456
+#redis-cache 相关
+redis:
+  pool:
+    maxActive: 300
+    maxIdle: 100
+    maxWait: 10000
+  #需要修改地址
+  host: 10.11.24.160
+  port:  6379
+  password: 123456
+  timeout: 20000
+  # 服务或应用名
+  sysName: service-fastdfs
+  enable: true
+  database: 4
+prop:
+  upload-folder: ./files
+
+
+##hystrix禁止服务超时时间
+hystrix:
+  threadpool:
+    default:
+      coreSize: 10000 ##并发执行的最大线程数，默认10
+      maxQueueSize: 10000 ##BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 5000 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+auth:
+  serviceId: lark-auth
+  user:
+    token-header: Authorization
+  client:
+    token-header: client-token
+    id: service-dfsfile  #不填则默认读取spring.application.name
+    secret: 123456
