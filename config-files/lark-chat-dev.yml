@@ -39,8 +39,8 @@ spring:
   rabbitmq:
     host: 127.0.0.1
     port: 5672
-    username: guest
-    password: guest
+    username: hollykunge
+    password: 123456
     listener:
       simple:
         acknowledge-mode: manual
@@ -70,7 +70,10 @@ aceNoticeRabbitMqQueueName: noticeToChatService
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #是否显示控制台输出，1显示0不显示，生产环境配置0即可
-showConsoleInf: 1
+showConsoleInf: 0
+#处理历史消息的定时任务时间
+#每月凌晨一点
+deal_his_msg_job_cron: 0 0 1 1 * ?
 #运行日志
 #logging:
 #  file: ${user.home}/logs/chat.log
