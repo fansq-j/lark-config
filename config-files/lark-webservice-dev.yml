@@ -17,7 +17,7 @@ spring:
     name: service-webservice
   datasource:
     driverclassname: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@//10.11.24.136:1521/arltr
+    url: jdbc:oracle:thin:@//localhost:1521:orcl
     username: lark_admin
     password: 123456
   jpa:
@@ -25,7 +25,7 @@ spring:
     hibernate:
       ddl-auto: update
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:10.11.24.160}
+    host: ${RABBIT_MQ_HOST:localhost}
     port: ${RABBIT_MQ_PORT:5672}
     username: hollykunge
     password: 123456
