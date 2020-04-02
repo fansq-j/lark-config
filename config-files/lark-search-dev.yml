@@ -1,0 +1,87 @@
+###服务启动端口号
+server:
+  port: 8500
+spring:
+  profiles:
+    active: dev
+  application:
+    name: lark-search
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    url: jdbc:oracle:thin:@${ORACLE_HOST:192.168.1.205}:${ORACLE_PORT:5566}:arltr
+    username: lark_search
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    druid:
+      max-active: 18
+      initial-size: 3
+      min-idle: 3
+      max-wait: 250000
+      time-between-eviction-runs-millis: 250000
+      min-evictable-idle-time-millis: 120000
+      validation-query: select 'x' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-open-prepared-statements: 20
+      filter: stat,wall,log4j
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.1.205:9300
+      cluster-name: larkes
+####es发现的问题，在此记录一下，这个系统不使用太新的es，性能说不上好坏
+#8以后会彻底删除该客户端API的支持，推荐用High Level REST Client，
+#所以此处配置使用spring.elasticsearch.rest.uris，默认值为http://localhost:9200
+ #   elasticsearch:
+  #    rest:
+   #     uris: http://127.0.0.1:9200
+    mongodb:
+      host: 192.168.1.205
+      port: 27017
+      database: lark-search # mongodb的连接的数据库
+  kafka:
+    bootstrap-servers: 192.168.1.205:9092
+    #生产者的配置，大部分我们可以使用默认的，这里列出几个比较重要的属性
+    producer:
+      #每批次发送消息的数量
+      batch-size: 16384
+      #设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。
+      ##允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，则第二条消息会比第一条消息出现要早。
+      retries: 0
+      #producer可以用来缓存数据的内存大小。如果数据产生速度大于向broker发送的速度，producer会阻塞或者抛出异常，
+      ###以“block.on.buffer.full”来表明。这项设置将和producer能够使用的总内存相关，但并不是一个硬性的限制，
+      ###因为不是producer使用的所有内存都是用于缓存。一些额外的内存会用于压缩（如果引入压缩机制），同样还有一些用于维护请求。
+      buffer-memory: 33554432
+      ###ack=1的情况下，producer只要收到分区leader成功写入的通知就会认为消息发送成功了。
+      ####如果leader成功写入后，还没来得及把数据同步到follower节点就挂了，这时候消息就丢失了
+      ###ack=-1，简单来说就是，producer只有收到分区内所有副本的成功写入的通知才认为推送消息成功了。
+      acks: -1
+      #key序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: com.github.hollykunge.security.search.kafkamd.config.JsonObjectSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+logging:
+  level:
+    com.github.hollykunge.security.search.*.mapper: debug
+    tk.mybatis: debug
+
+eureka:
+  instance:
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    home-page-url-path: /
+  client:
+    serviceUrl:
+      #            defaultZone: http://localhost:8761/eureka/
+      # docker 部署开启
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      ###向注册中心上注册自己
+      register-with-eureka: true
+      ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+
