@@ -13,7 +13,7 @@ spring:
     #需要修改地址
     #        host: 10.11.24.5
     #host: 10.11.24.135  47.99.247.83
-    host: 10.11.24.160
+    host: localhost
     jedis:
       pool:
         max-active: 200

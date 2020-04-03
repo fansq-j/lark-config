@@ -2,7 +2,7 @@ spring:
   application:
     name: service-dfsfile
   datasource:
-    url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.136}:${ORACLE_PORT:1521}:arltr
+    url: jdbc:oracle:thin:@${ORACLE_HOST:localhost}:${ORACLE_PORT:1521}:orcl
     username: lark_file
     password: 123456
     # 使用druid数据源
