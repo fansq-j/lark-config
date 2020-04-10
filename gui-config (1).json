@@ -1,0 +1,96 @@
+{
+  "configs": [
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "香港-A",
+      "server": "ssr.hk-a.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "香港-B",
+      "server": "ssr.hk-b.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "香港-C",
+      "server": "ssr.hk-c.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "香港-D",
+      "server": "ssr.hk-d.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "美国-A",
+      "server": "ssr.us-a.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "美国-B",
+      "server": "ssr.us-b.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "美国-C",
+      "server": "ssr.us-c.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "日本-A",
+      "server": "ssr.jp-a.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "日本-B",
+      "server": "ssr.jp-b.xxurl.xyz",
+      "server_port": 4507
+    },
+    {
+      "obfs": "tls1.2_ticket_auth",
+      "protocol": "auth_aes128_md5",
+      "method": "chacha20",
+      "password": "O7+AP4ey0hP-4g",
+      "remarks": "日本-C",
+      "server": "ssr.jp-c.xxurl.xyz",
+      "server_port": 4507
+    }
+  ],
+  "localPort": 1080,
+  "shareOverLan": false
+}
