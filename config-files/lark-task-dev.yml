@@ -1,0 +1,128 @@
+server:
+  port: 8780 #启动端口
+
+#eruka注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      ###向注册中心上注册自己
+      register-with-eureka: true
+      ###是否需要从eureka上获取注册信息
+      fetch-registry: true
+#      register-with-eureka: false
+#      #是否需要从eureka上获取注册信息
+#      fetch-registry: false
+
+spring:
+  application:
+    name: service-task
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    #        name: test
+    #        url: jdbc:mysql://${MYSQL_HOST:10.12.97.30}:${MYSQL_PORT:3306}/lark-admin?useUnicode=true&characterEncoding=UTF8&useSSL=true
+    #        username: root
+    #        password: 123456
+    #url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.136}:${ORACLE_PORT:1521}:arltr
+    url: jdbc:oracle:thin:@${ORACLE_HOST:localhost}:${ORACLE_PORT:1521}:orcl
+    username: lark_task
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    druid:
+      max-active: 18
+      initial-size: 3
+      min-idle: 3
+      max-wait: 250000
+      time-between-eviction-runs-millis: 250000
+      min-evictable-idle-time-millis: 120000
+      validation-query: select 'x' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-open-prepared-statements: 20
+      filter: stat,wall,log4j
+  rabbitmq:
+    #需要修改地址
+    host: ${RABBIT_MQ_HOST:localhost}
+#    host: ${RABBIT_MQ_HOST:127.0.0.1}
+    port:  ${RABBIT_MQ_PORT:5672}
+    username: hollykunge
+    password: 123456
+    virtual-host: /
+    ###使用rabbitmq消息发送确认机制
+    publisher-confirms: true
+    listener:
+      simple:
+        #开启手动ack
+        acknowledge-mode: manual
+        retry:
+          #重试机制适用于门户服务数据库暂时24秒内连接不上等情况
+          enabled: true
+          #最大重试次数
+          max-attempts: 8
+          #重试间隔次数
+          initial-interval: 3000ms
+  sleuth:
+    sampler:
+      percentage: 1
+
+sample:
+  zipkin:
+    # When enabled=false, traces log to the console. Comment to send to zipkin
+    enabled: false
+
+mybatis:
+  basepackage: com.github.hollykunge.security.admin.mapper
+  xmlLocation: classpath:mapper/**/*.xml
+  mapper-locations: "classpath*:mapper/*.xml"
+
+# 必须配置
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 10000 ##并发执行的最大线程数，默认10
+      maxQueueSize: 10000 ##BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 5000 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+#redis-cache 相关
+redis:
+  pool:
+    maxActive: 300
+    maxIdle: 100
+    maxWait: 10000
+    #需要修改地址
+  host: ${REDIS_HOST:localhost}
+#  host: ${REDIS_HOST:127.0.0.1}
+  port:  ${REDIS_PORT:6379}
+  password: 123456
+  timeout: 20000
+  # 服务或应用名
+  sysName: ace-admin
+  enable: true
+  database: 0
