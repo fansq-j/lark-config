@@ -154,3 +154,7 @@ intranet:
   header:
     dnname: dnname
     clientip: clientIp
+####在网关过滤掉敏感数据，实体中的私有化变量,多个用逗号隔开
+sensitive:
+  filter:
+    data: pid
