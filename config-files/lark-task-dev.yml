@@ -123,6 +123,6 @@ redis:
   password: 123456
   timeout: 20000
   # 服务或应用名
-  sysName: ace-admin
+  sysName: lark-admin
   enable: true
   database: 0

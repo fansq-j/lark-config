@@ -118,7 +118,7 @@ hystrix:
 swagger:
   enabled: true
   base-package: com.github.hollykunge.security.admin
-  title: ace-admin
+  title: lark-admin
   version: 1.0.0.SNAPSHOT
   description: 管理后端服务
   contact:
@@ -146,7 +146,7 @@ redis:
   password: 123456
   timeout: 20000
   # 服务或应用名
-  sysName: ace-admin
+  sysName: lark-admin
   enable: true
   database: 0
 ####新增用户时的默认密码

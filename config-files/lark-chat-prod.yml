@@ -85,7 +85,7 @@ auth:
     token-header: client-token
     id: service-chat
     secret: 123456
-  serviceId: ace-auth
+  serviceId: lark-auth
   user:
     token-header: Authorization
 

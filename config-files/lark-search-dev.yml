@@ -11,7 +11,7 @@ spring:
     time-zone: GMT+8
     default-property-inclusion: non_null
   datasource:
-    url: jdbc:oracle:thin:@${ORACLE_HOST:192.168.1.205}:${ORACLE_PORT:5566}:arltr
+    url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.177}:${ORACLE_PORT:5566}:orcl
     username: lark_search
     password: 123456
     # 使用druid数据源

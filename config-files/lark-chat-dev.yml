@@ -21,7 +21,7 @@ spring:
       initial-size: 5
       max-wait: 10000
     driverClassName: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+    url: jdbc:oracle:thin:@10.11.24.177:1521:orcl
     username: workhub_iwork
     druid:
       max-active: 18
@@ -37,7 +37,7 @@ spring:
       max-open-prepared-statements: 20
       filter: stat,wall,slf4j
   rabbitmq:
-    host: 127.0.0.1
+    host: 10.11.24.177
     port: 5672
     username: hollykunge
     password: 123456
@@ -54,7 +54,7 @@ spring:
         max-active: 300
         max-idle: 100
         max-wait: 5000ms
-    host: 127.0.0.01
+    host: 10.11.24.177
     port: 6379
     password: 123456
     database: 3
@@ -98,7 +98,7 @@ auth:
     token-header: client-token
     id: service-chat
     secret: 123456
-  serviceId: ace-auth
+  serviceId: lark-auth
   user:
     token-header: Authorization
 
