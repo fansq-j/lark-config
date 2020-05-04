@@ -73,7 +73,8 @@ spring:
   sleuth:
     sampler:
       percentage: 1
-
+  encrypt:
+    key: abcdef0123456789
 sample:
   zipkin:
     # When enabled=false, traces log to the console. Comment to send to zipkin
