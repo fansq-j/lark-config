@@ -8,14 +8,14 @@ spring:
   redis:
     database: 1
     #需要修改地址
-    host: ${REDIS_HOST:localhost}
+    host: ${REDIS_HOST:10.11.24.177}
     port: ${REDIS_PORT:6379}
     pool:
       max-active: 200
     password: 123456
   datasource:
     name: test
-    url: jdbc:oracle:thin:@${ORACLE_HOST:localhost}:${ORACLE_PORT:1521}:orcl
+    url: jdbc:oracle:thin:@${ORACLE_HOST:10.11.24.177}:${ORACLE_PORT:1521}:orcl
     username: lark_auth
     password: 123456
     # 使用druid数据源
@@ -57,7 +57,8 @@ spring:
   sleuth:
     sampler:
       percentage: 1
-
+  encrypt:
+    key: abcdef0123456789
 #eruka注册中心
 eureka:
   client:
