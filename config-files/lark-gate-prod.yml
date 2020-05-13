@@ -65,6 +65,8 @@ feign:
       enabled: true
   hystrix:
     enabled: true
+  ####larkserver自定义属性
+  aop: execution(* com.github.hollykunge.security.gate.feign.*Feign.*(..))
 
 zuul:
   ignored-services: "*"
