@@ -87,8 +87,6 @@ feign:
     enabled: true
   hystrix:
     enabled: true
-  ####larkserver自定义属性
-  aop: execution(* com.github.hollykunge.security.auth.feign.*.*(..))
 
 ribbon:
   eureka:
